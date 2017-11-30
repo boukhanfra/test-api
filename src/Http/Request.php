@@ -55,12 +55,13 @@ class Request
     public function __construct()
     {
         $this->params = array();
-        array_merge($this->params, $_GET);
-        array_merge($this->params, $_POST);
-        array_merge($this->params, $_FILES);
-        array_merge($this->params, $_COOKIE);
+        $this->params = array_merge($this->params, $_GET);
+        $this->params = array_merge($this->params, $_POST);
+        $this->params = array_merge($this->params, $_FILES);
+        $this->params = array_merge($this->params, $_COOKIE);
         $this->content = file_get_contents('php://input');
-        $this->splitUri = explode('/', $_SERVER['REQUEST_URI']);
+        $tab = explode('?', $_SERVER['REQUEST_URI']);
+        $this->splitUri = explode('/', $tab[0]);
         $this->splitUri = array_splice($this->splitUri, 2);
         $this->uri = '/';
         foreach ($this->splitUri as $u) {

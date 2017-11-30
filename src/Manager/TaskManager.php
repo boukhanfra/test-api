@@ -127,6 +127,10 @@ class TaskManager
         $this->list[$id] = $task;
     }
 
+    /**
+     * @param integer $id
+     * @throws TaskNotFoundException
+     */
     public function delete($id)
     {
         if (!key_exists($id, $this->list)) {
@@ -136,4 +140,22 @@ class TaskManager
         unset($this->list[$id]);
     }
 
+    /**
+     * @param integer $user_id
+     * @return array
+     */
+    public function getUserTasks($user_id)
+    {
+        $userTasks = array();
+        /**
+         * @var Task $task
+         */
+        foreach ($this->list as $task) {
+            if ($user_id == $task->getUser()->getId()) {
+                $userTasks[] = $task->toArray();
+            }
+        }
+
+        return $userTasks;
+    }
 }

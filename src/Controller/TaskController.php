@@ -102,9 +102,15 @@ class TaskController extends Controller
      */
     public function listAction(Request $request)
     {
+        if ($request->getParam('user_id') != '') {
+            $list = TaskManager::getInstance()->getUserTasks($request->getParam('user_id'));
+        } else {
 
-        return new Response($this->getList());
+            $list = $this->getList();
+        }
+        return new Response($list);
     }
+
 
     /**
      * @return array
